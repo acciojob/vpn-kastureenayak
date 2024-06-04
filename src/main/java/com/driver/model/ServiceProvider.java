@@ -15,6 +15,10 @@ public class ServiceProvider {
     @JoinColumn
     Admin admin;
 
+    public ServiceProvider(){
+
+    }
+
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL)
     List<Country> countryList;
 

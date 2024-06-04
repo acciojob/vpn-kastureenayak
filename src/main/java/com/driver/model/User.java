@@ -15,6 +15,10 @@ public class User {
     private Boolean connected;
     private String maskedIp;
 
+    public User(){
+
+    }
+
     @JoinColumn
     @ManyToMany
     private List<ServiceProvider> serviceProviderList;

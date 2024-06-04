@@ -11,6 +11,9 @@ import com.driver.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Locale;
+
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
@@ -24,18 +27,27 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin register(String username, String password) {
-        Admin admin=new Admin(username,password);
+        Admin admin = new Admin();
+
+        admin.setUsername(username);
+        admin.setPassword(password);
+
         adminRepository1.save(admin);
         return admin;
     }
 
     @Override
     public Admin addServiceProvider(int adminId, String providerName) {
-        Admin admin=adminRepository1.findById(adminId).get();
-        ServiceProvider serviceProvider=new ServiceProvider();
+
+        Admin admin = adminRepository1.findById(adminId).get();
+
+
+        ServiceProvider serviceProvider = new ServiceProvider();
         serviceProvider.setName(providerName);
         serviceProvider.setAdmin(admin);
-        admin.getServiceProviders().add(serviceProvider);
+        List<ServiceProvider> serviceProviderList = admin.getServiceProviders();
+        serviceProviderList.add(serviceProvider);
+        admin.setServiceProviders(serviceProviderList);
 
         adminRepository1.save(admin);
         return admin;
@@ -43,30 +55,22 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public ServiceProvider addCountry(int serviceProviderId, String countryName) throws Exception{
-        String upperCaseString = countryName.toUpperCase();
-        CountryName countryName1 = findCountryByName(upperCaseString);
-        if(countryName1==null){
-            throw new Exception("Country not found");
-        }
+        boolean isCountryPresent = false;
 
-        Country country=new Country();
-        country.setCountryName(countryName1);
-        country.setCode(countryName1.toCode());
-        ServiceProvider serviceProvider=serviceProviderRepository1.findById(serviceProviderId).get();
+        String str = countryName.toUpperCase();
+        if(!str.equals("IND") && !str.equals("JPN") && !str.equals("AUS") && !str.equals("CHI") && !str.equals("USA")){
+            throw  new Exception("Country not found");
+        }
+        ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
+
+        Country country = new Country(CountryName.valueOf(str), CountryName.valueOf(str).toCode());
+
+
         country.setServiceProvider(serviceProvider);
         serviceProvider.getCountryList().add(country);
 
         serviceProviderRepository1.save(serviceProvider);
+
         return serviceProvider;
-
-    }
-
-    public   CountryName findCountryByName(String name) {
-        for (CountryName country : CountryName.values()) {
-            if (country.toString().equals(name)) {
-                return country;
-            }
-        }
-        return null;
     }
 }

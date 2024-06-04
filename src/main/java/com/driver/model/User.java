@@ -15,10 +15,6 @@ public class User {
     private Boolean connected;
     private String maskedIp;
 
-    public User(){
-
-    }
-
     @JoinColumn
     @ManyToMany
     private List<ServiceProvider> serviceProviderList;
@@ -28,6 +24,21 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Connection> connectionList;
+
+    public User() {
+    }
+
+    public User(int id, String username, String password, String originalIp, Boolean connected, String maskedIp, List<ServiceProvider> serviceProviderList, Country originalCountry, List<Connection> connectionList) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.originalIp = originalIp;
+        this.connected = connected;
+        this.maskedIp = maskedIp;
+        this.serviceProviderList = serviceProviderList;
+        this.originalCountry = originalCountry;
+        this.connectionList = connectionList;
+    }
 
     public int getId() {
         return id;

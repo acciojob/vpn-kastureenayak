@@ -1,69 +1,87 @@
-//
 // Note: Do not write @Enumerated annotation above CountryName in this model.
+
 package com.driver.model;
 
+import org.springframework.data.repository.cdi.Eager;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-
-import javax.persistence.*;
-
-// Note: Do not write @Enumerated annotation above CountryName in this model.
 @Entity
-public class Country{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Country {
+    private int countryId;
 
     private CountryName countryName;
     private String code;
 
-    public Country(){
-
-    }
-    @OneToOne
+    @ManyToOne
     @JoinColumn
     private User user;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn
     private ServiceProvider serviceProvider;
 
 
-
-    public void setUser(User user) {
-        this.user = user;
+    public Country() {
     }
 
-    public void setCode(String code) {
+    public Country(CountryName countryName, String code) {
+        this.countryName = countryName;
         this.code = code;
     }
 
-    public void setCountryName(CountryName countryName) {
+    public Country(int countryId,
+                   ServiceProvider serviceProvider,
+                   User user,
+                   String code,
+                   CountryName countryName) {
+        this.countryId = countryId;
+        this.serviceProvider = serviceProvider;
+        this.user = user;
+        this.code = code;
         this.countryName = countryName;
     }
 
-    public void setServiceProvider(ServiceProvider serviceProvider) {
-        this.serviceProvider = serviceProvider;
+    public int getCountryId() {
+        return countryId;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
     }
 
     public CountryName getCountryName() {
         return countryName;
     }
 
+    public void setCountryName(CountryName countryName) {
+        this.countryName = countryName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public ServiceProvider getServiceProvider() {
         return serviceProvider;
     }
 
+    public void setServiceProvider(ServiceProvider serviceProvider) {
+        this.serviceProvider = serviceProvider;
+    }
+
     public String getCode() {
         return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

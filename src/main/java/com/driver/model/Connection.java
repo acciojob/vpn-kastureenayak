@@ -12,13 +12,18 @@ public class Connection {
     @JoinColumn
     private User user;
 
-    public Connection(){
-
-    }
-
     @ManyToOne
     @JoinColumn
     private ServiceProvider serviceProvider;
+
+    public Connection() {
+    }
+
+    public Connection(int id, User user, ServiceProvider serviceProvider) {
+        this.id = id;
+        this.user = user;
+        this.serviceProvider = serviceProvider;
+    }
 
     public int getId() {
         return id;

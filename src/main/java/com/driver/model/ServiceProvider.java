@@ -15,10 +15,6 @@ public class ServiceProvider {
     @JoinColumn
     Admin admin;
 
-    public ServiceProvider(){
-
-    }
-
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL)
     List<Country> countryList;
 
@@ -27,6 +23,19 @@ public class ServiceProvider {
 
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL)
     List<Connection> connectionList;
+
+    public ServiceProvider() {
+
+    }
+
+    public ServiceProvider(String name, int id, Admin admin, List<User> users, List<Connection> connectionList, List<Country> countryList) {
+        this.name = name;
+        this.id = id;
+        this.admin = admin;
+        this.users = users;
+        this.connectionList = connectionList;
+        this.countryList = countryList;
+    }
 
     public int getId() {
         return id;
